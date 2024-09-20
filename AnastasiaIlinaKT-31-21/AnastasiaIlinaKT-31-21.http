@@ -1,0 +1,6 @@
+@AnastasiaIlinaKT_31_21_HostAddress = http://localhost:5089
+
+GET {{AnastasiaIlinaKT_31_21_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
