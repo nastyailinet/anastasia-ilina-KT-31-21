@@ -43,6 +43,13 @@ namespace AnastasiaIlinaKT_31_21.Database.Configurations
                 .HasColumnType(ColumnType.Int)
                 .HasComment("Год поступления");
 
+            builder
+                .Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasColumnName("c_group_is_deleted")
+                .HasColumnType(ColumnType.Bool)
+                .HasComment("Статус удаления");
+
             builder.ToTable(TableName)
                 .HasMany(p => p.Disciplines)
                 .WithMany(p => p.Groups); ;

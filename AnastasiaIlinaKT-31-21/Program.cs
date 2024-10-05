@@ -2,6 +2,7 @@ using AnastasiaIlinaKT_31_21.Database;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using static AnastasiaIlinaKT_31_21.ServiceExtensions.ServiceExtenisons;
 
 var builder = WebApplication.CreateBuilder(args);
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -17,6 +18,8 @@ try
     builder.Services.AddDbContext<StudentDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    builder.Services.AddServices();
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

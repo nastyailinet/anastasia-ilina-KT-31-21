@@ -10,6 +10,8 @@
 
         public int Year { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Student> Students { get; set; }
 
         public ICollection<Discipline> Disciplines { get; set; }
