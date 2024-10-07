@@ -24,21 +24,14 @@ namespace AnastasiaIlinaKT_31_21.Interfaces.MarksInterfaces
         {
             var marks = _dbContext.Set<Mark>().AsQueryable();
 
-            var students = _dbContext.Set<Student>().AsQueryable();
-
-            var disciplines = _dbContext.Set<Discipline>().AsQueryable();
-
-            var studentMarkQuery = from m in marks
-                              join s in students on m.StudentId equals s.StudentId
-                              join d in disciplines on m.DisciplineId equals d.DisciplineId
-                              where filter.LastName == s.LastName 
-                                 && filter.FirstName == s.FirstName 
-                                 && filter.MiddleName == s.MiddleName
-                                 && filter.DisciplineName == d.DisciplineName 
-                                 && filter.MarkDate == m.MarkDate
-                              select m.MarkValue;
-
-            var studentMark = await studentMarkQuery.FirstOrDefaultAsync(cancellationToken);
+            var studentMark = await marks
+                                        .Where(m => m.Student.LastName == filter.LastName &&
+                                               m.Student.FirstName == filter.FirstName &&
+                                               m.Student.MiddleName == filter.MiddleName &&
+                                               m.Discipline.DisciplineName == filter.DisciplineName &&
+                                               m.MarkDate == filter.MarkDate)
+                                        .Select(m => (int?)m.MarkValue) 
+                                        .FirstOrDefaultAsync(cancellationToken);
 
             return studentMark;
         }

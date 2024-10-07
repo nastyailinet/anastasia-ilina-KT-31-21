@@ -25,20 +25,13 @@ namespace AnastasiaIlinaKT_31_21.Interfaces.MarksInterfaces
         {
             var marks = _dbContext.Set<Mark>().AsQueryable();
 
-            var students = _dbContext.Set<Student>().AsQueryable();
-
-            var groups = _dbContext.Set<AcademicGroup>().AsQueryable();
-
-            var disciplines = _dbContext.Set<Discipline>().AsQueryable();
-
-            var filteredMarks = from m in marks
-                                join s in students on m.StudentId equals s.StudentId
-                                join g in groups on s.GroupId equals g.GroupId
-                                join d in disciplines on m.DisciplineId equals d.DisciplineId
-                                where filter.Chars == g.Chars && filter.Number == g.Number && filter.Year == g.Year && filter.DisciplineName == d.DisciplineName
-                                select m.MarkValue;
-            
-            var avgMark = await filteredMarks.AverageAsync(cancellationToken);
+            var avgMark = await marks.Where(m => m.Student.Group.Chars == filter.Chars &&
+                                                 m.Student.Group.Number == filter.Number &&
+                                                 m.Student.Group.Year == filter.Year &&
+                                                 m.Discipline.DisciplineName == filter.DisciplineName)
+                                            .AverageAsync(m => m.MarkValue, cancellationToken);
+                               
+                                
 
             return avgMark;
         }

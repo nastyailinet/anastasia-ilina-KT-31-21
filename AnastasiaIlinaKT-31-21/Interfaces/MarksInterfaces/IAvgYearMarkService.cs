@@ -22,18 +22,13 @@ namespace AnastasiaIlinaKT_31_21.Interfaces.MarksInterfaces
         public async Task<double> GerAvgMarkByYearAsync(AvgMarkByYearFilter filter, CancellationToken cancellationToken)
         {
             var marks = _dbContext.Set<Mark>().AsQueryable();
+            var avgMark = await marks
+                                    .Where(m => m.MarkDate.Year == filter.Year &&
+                                        m.Discipline.DisciplineName == filter.DisciplineName) 
+                                    .AverageAsync(m => m.MarkValue, cancellationToken); 
 
-            var disciplines = _dbContext.Set<Discipline>().AsQueryable();
-
-            var filteredMarks = from m in marks
-                                join d in disciplines on m.DisciplineId equals d.DisciplineId
-                                where filter.DisciplineName == d.DisciplineName
-                                   && filter.Year == m.MarkDate.Year
-                                select m.MarkValue;
-
-            var avgMark = await filteredMarks.AverageAsync(cancellationToken);
-
-            return avgMark; 
+            return avgMark;
+            
         }
     }
 }
