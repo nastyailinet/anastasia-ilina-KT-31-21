@@ -23,8 +23,7 @@ namespace AnastasiaIlinaKT_31_21.Interfaces.MarksInterfaces
         {
             var marks = _dbContext.Set<Mark>().AsQueryable();
             var avgMark = await marks
-                                    .Where(m => m.MarkDate.Year == filter.Year &&
-                                        m.Discipline.DisciplineName == filter.DisciplineName) 
+                                    .Where(m => m.MarkDate.Year == filter.Year)                                      
                                     .AverageAsync(m => m.MarkValue, cancellationToken); 
 
             return avgMark;

@@ -50,7 +50,7 @@ namespace AnastasiaIlinaKT_31_21.Controllers
         }
 
         [HttpPost(Name = "average-grade/year")]
-        public async Task<IActionResult> GetActionResultAsync(AvgMarkByYearFilter filter, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAvgMarkByYearAsync(AvgMarkByYearFilter filter, CancellationToken cancellationToken)
         {
             var mark = await _avgYearMarkService.GerAvgMarkByYearAsync(filter, cancellationToken);
 

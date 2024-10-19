@@ -2,8 +2,6 @@
 {
     public class AvgMarkByYearFilter
     {
-        public string DisciplineName { get; set; }
-
         public int Year { get; set; }
     }
 }
